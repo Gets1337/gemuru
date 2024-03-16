@@ -56,7 +56,7 @@ export const SignInPage = () => {
         <Typography component="h1" variant="h5">
           Авторизация
         </Typography>
-        <Box component="form" noValidate sx={{ mt: 1 }}>
+        <Box component="form" minWidth="100%" noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
@@ -76,10 +76,6 @@ export const SignInPage = () => {
             id="password"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Запомнить меня"
-          />
           <Button
             type="submit"
             onClick={handleSubmit}
@@ -90,9 +86,6 @@ export const SignInPage = () => {
             Авторизироваться
           </Button>
           <Stack direction="row" spacing={2}>
-            <Link href="#" variant="body2">
-              Забыл пароль?
-            </Link>
             <Link href="/register" variant="body2">
               {'Зарегистрироваться'}
             </Link>
