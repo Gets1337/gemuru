@@ -24,6 +24,7 @@ export const SignOnPage = () => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setIsLoading(true);
+    console.log(repeatPassword); //Убрать после того, как напишу запрос на проверку password
 
     try {
       const response = await fetch('http://62.113.118.59:1337/register', {
@@ -35,7 +36,6 @@ export const SignOnPage = () => {
           username,
           login,
           password,
-          repeatPassword,
           email,
         }),
       });
