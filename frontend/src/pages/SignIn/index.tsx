@@ -36,7 +36,6 @@ export const SignInPage = () => {
         console.error('Ошибка аутентификации');
       }
     } catch (error) {
-      navigate('/dashboard'); //todo Удалить после соединения с сервером
       console.error('Ошибка сети', error);
     } finally {
       setIsLoading(false);
