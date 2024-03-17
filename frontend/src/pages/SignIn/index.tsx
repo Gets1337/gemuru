@@ -36,10 +36,10 @@ export const SignInPage = () => {
         console.error('Ошибка аутентификации');
       }
     } catch (error) {
-      navigate('/dashboard'); //todo Удалить после интеграции с сервером
+      navigate('/dashboard');
       console.error('Ошибка сети', error);
     } finally {
-      setIsLoading(false); // Устанавливаем isLoading в false после завершения запроса
+      setIsLoading(false);
     }
   };
   return (
