@@ -25,6 +25,11 @@ export const SignOnPage = () => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
+    if (!username || !login || !password || !repeatPassword || !email) {
+      setError('Пожалуйста, заполните все поля');
+      return;
+    }
+
     if (password !== repeatPassword) {
       setError('Пароли не совпадают');
       return;
@@ -46,6 +51,7 @@ export const SignOnPage = () => {
           email,
         }),
       });
+
       if (response.ok) {
         navigate('/login');
       } else {
@@ -57,6 +63,7 @@ export const SignOnPage = () => {
       setIsLoading(false);
     }
   };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -115,11 +122,6 @@ export const SignOnPage = () => {
               id="repeatpassword"
               onChange={(e) => setRepeatPassword(e.target.value)}
             />
-            {error && (
-              <Typography color="error" variant="body2">
-                {error}
-              </Typography>
-            )}
             <TextField
               required
               fullWidth
@@ -128,6 +130,11 @@ export const SignOnPage = () => {
               name="email"
               onChange={(e) => setemail(e.target.value)}
             />
+            {error && (
+              <Typography color="error" variant="body2">
+                {error}
+              </Typography>
+            )}
           </Stack>
 
           <Button
