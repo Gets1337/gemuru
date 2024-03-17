@@ -16,10 +16,17 @@ export const SignInPage = () => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+
+    if (!login || !password) {
+      setError('Пожалуйста, заполните все поля');
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -31,7 +38,7 @@ export const SignInPage = () => {
         body: JSON.stringify({ login, password }),
       });
       if (response.ok) {
-        navigate('/dashboard');
+        navigate('/');
       } else {
         console.error('Ошибка аутентификации');
       }
@@ -41,6 +48,7 @@ export const SignInPage = () => {
       setIsLoading(false);
     }
   };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -82,6 +90,11 @@ export const SignInPage = () => {
             id="password"
             onChange={(e) => setPassword(e.target.value)}
           />
+          {error && (
+            <Typography color="error" variant="body2">
+              {error}
+            </Typography>
+          )}
           <Button
             type="submit"
             onClick={handleSubmit}
