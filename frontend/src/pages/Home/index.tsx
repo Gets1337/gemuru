@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -12,6 +12,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { mainListItems } from '../../components/Home/listindex';
 import { List } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth: number = 240;
 
@@ -65,9 +66,34 @@ const Drawer = styled(MuiDrawer, {
 
 export const HomePage = () => {
   const [open, setOpen] = React.useState(true);
+  const [sessionChecked, setSessionChecked] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    checkSession();
+  }, []);
+
+  const checkSession = async () => {
+    try {
+      const response = await fetch('http://62.113.118.59:1337/checkSession', {
+        method: 'GET',
+        credentials: 'include',
+      });
+      if (!response.ok) {
+        navigate('/login');
+      }
+      setSessionChecked(true);
+    } catch (error) {
+      console.error('Ошибка проверки сессии', error);
+    }
+  };
+
+  if (!sessionChecked) {
+    return null;
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
