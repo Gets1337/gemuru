@@ -16,6 +16,7 @@ export const SignOnPage = () => {
   const [email, setemail] = useState('');
   const [login, setlogin] = useState('');
   const [password, setpassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
@@ -27,7 +28,13 @@ export const SignOnPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, email, login, password }),
+        body: JSON.stringify({
+          username,
+          email,
+          login,
+          password,
+          repeatPassword,
+        }),
       });
       if (response.ok) {
         navigate('/login');
@@ -91,6 +98,15 @@ export const SignOnPage = () => {
               type="password"
               id="password"
               onChange={(e) => setpassword(e.target.value)}
+            />
+            <TextField
+              required
+              fullWidth
+              name="repeat-password"
+              label="Повторите пароль"
+              type="repeatPassword"
+              id="repeat-password"
+              onChange={(e) => setRepeatPassword(e.target.value)}
             />
           </Stack>
           <Button
