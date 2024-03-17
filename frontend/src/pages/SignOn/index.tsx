@@ -7,6 +7,7 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
@@ -17,10 +18,12 @@ export const SignOnPage = () => {
   const [login, setlogin] = useState('');
   const [password, setpassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       const response = await fetch('http://62.113.118.59:1337/register', {
@@ -44,6 +47,8 @@ export const SignOnPage = () => {
     } catch (error) {
       navigate('/login'); //todo Удалить после интеграции с сервером
       console.error('Ошибка сети', error);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -58,7 +63,11 @@ export const SignOnPage = () => {
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <LockOutlinedIcon />
+          {isLoading ? (
+            <CircularProgress color="inherit" size={24} />
+          ) : (
+            <LockOutlinedIcon />
+          )}
         </Avatar>
         <Typography component="h1" variant="h5">
           Регистрация
@@ -112,6 +121,7 @@ export const SignOnPage = () => {
           <Button
             type="submit"
             onClick={handleSubmit}
+            disabled={isLoading}
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
