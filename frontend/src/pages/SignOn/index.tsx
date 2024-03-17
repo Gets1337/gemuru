@@ -33,10 +33,10 @@ export const SignOnPage = () => {
         },
         body: JSON.stringify({
           username,
-          email,
           login,
           password,
           repeatPassword,
+          email,
         }),
       });
       if (response.ok) {
@@ -85,14 +85,6 @@ export const SignOnPage = () => {
             <TextField
               required
               fullWidth
-              id="email"
-              label="Почта"
-              name="email"
-              onChange={(e) => setemail(e.target.value)}
-            />
-            <TextField
-              required
-              fullWidth
               name="login"
               label="Логин"
               type="login"
@@ -116,6 +108,14 @@ export const SignOnPage = () => {
               type="repeatPassword"
               id="repeat-password"
               onChange={(e) => setRepeatPassword(e.target.value)}
+            />
+            <TextField
+              required
+              fullWidth
+              id="email"
+              label="Почта"
+              name="email"
+              onChange={(e) => setemail(e.target.value)}
             />
           </Stack>
           <Button
