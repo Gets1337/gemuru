@@ -19,12 +19,19 @@ export const SignOnPage = () => {
   const [password, setpassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+
+    if (password !== repeatPassword) {
+      setError('Пароли не совпадают');
+      return;
+    }
+
     setIsLoading(true);
-    console.log(repeatPassword); //Убрать после того, как напишу запрос на проверку password
+    setError('');
 
     try {
       const response = await fetch('http://62.113.118.59:1337/register', {
@@ -45,7 +52,6 @@ export const SignOnPage = () => {
         console.error('Ошибка регистрации');
       }
     } catch (error) {
-      navigate('/login'); //todo Удалить после интеграции с сервером
       console.error('Ошибка сети', error);
     } finally {
       setIsLoading(false);
@@ -103,12 +109,17 @@ export const SignOnPage = () => {
             <TextField
               required
               fullWidth
-              name="repeat-password"
+              name="repeatpassword"
               label="Повторите пароль"
               type="repeatPassword"
-              id="repeat-password"
+              id="repeatpassword"
               onChange={(e) => setRepeatPassword(e.target.value)}
             />
+            {error && (
+              <Typography color="error" variant="body2">
+                {error}
+              </Typography>
+            )}
             <TextField
               required
               fullWidth
@@ -118,6 +129,7 @@ export const SignOnPage = () => {
               onChange={(e) => setemail(e.target.value)}
             />
           </Stack>
+
           <Button
             type="submit"
             onClick={handleSubmit}

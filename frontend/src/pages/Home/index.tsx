@@ -63,7 +63,7 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-export function HomePage() {
+export const HomePage = () => {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -136,4 +136,4 @@ export function HomePage() {
       </Box>
     </Box>
   );
-}
+};
