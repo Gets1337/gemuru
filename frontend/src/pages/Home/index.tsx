@@ -65,35 +65,34 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export const HomePage = () => {
-  const [open, setOpen] = React.useState(true);
-  const [sessionChecked, setSessionChecked] = React.useState(false);
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
+  const [open, setOpen] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    checkSession();
+    const GetUserInfo = async () => {
+      try {
+        const response = await fetch('http://62.113.118.59:1337/api/user.info');
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+        } else {
+          navigate('/login');
+        }
+      } catch (error) {
+        console.error('Ошибка при выполнении запроса:', error);
+      }
+    };
+
+    GetUserInfo();
   }, []);
 
-  const checkSession = async () => {
-    try {
-      const response = await fetch('http://62.113.118.59:1337/checkSession', {
-        method: 'GET',
-        credentials: 'include',
-      });
-      if (!response.ok) {
-        navigate('/login');
-      }
-      setSessionChecked(true);
-    } catch (error) {
-      console.error('Ошибка проверки сессии', error);
-    }
+  const toggleDrawer = () => {
+    setOpen(!open);
   };
 
-  if (!sessionChecked) {
-    return null;
-  }
+  const handleLogout = () => {
+    navigate('/login');
+  };
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -121,10 +120,19 @@ export const HomePage = () => {
             variant="h6"
             color="inherit"
             noWrap
-            sx={{ flexGrow: 1 }}
+            sx={{ flexGrow: 1, fontFamily: 'Roboto', fontSize: '1.6rem' }}
           >
             Gemuru
           </Typography>
+          <IconButton color="inherit" onClick={handleLogout}>
+            <Typography
+              variant="body1"
+              color="inherit"
+              sx={{ fontFamily: 'Roboto', fontSize: '1rem' }}
+            >
+              Выход
+            </Typography>
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

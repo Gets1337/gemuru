@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { SignInPage, SignOnPage, HomePage } from './pages/';
+import { SignInPage, SignOnPage, HomePage, NotFoundPage } from './pages/';
 
 function App() {
   return (
@@ -8,6 +8,7 @@ function App() {
       <Route path="login" element={<SignInPage />} />
       <Route path="register" element={<SignOnPage />} />
       <Route path="/" element={<HomePage />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }

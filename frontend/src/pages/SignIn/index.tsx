@@ -16,21 +16,14 @@ export const SignInPage = () => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-
-    if (!login || !password) {
-      setError('Пожалуйста, заполните все поля');
-      return;
-    }
-
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://62.113.118.59:1337/login', {
+      const response = await fetch('http://62.113.118.59:1337/api/user.login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -90,18 +83,13 @@ export const SignInPage = () => {
             id="password"
             onChange={(e) => setPassword(e.target.value)}
           />
-          {error && (
-            <Typography color="error" variant="body2">
-              {error}
-            </Typography>
-          )}
           <Button
             type="submit"
             onClick={handleSubmit}
             disabled={isLoading}
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, height: '56px' }}
           >
             Авторизироваться
           </Button>

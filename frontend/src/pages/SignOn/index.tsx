@@ -25,32 +25,29 @@ export const SignOnPage = () => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    if (!username || !login || !password || !repeatPassword || !email) {
-      setError('Пожалуйста, заполните все поля');
-      return;
-    }
-
     if (password !== repeatPassword) {
       setError('Пароли не совпадают');
       return;
     }
 
     setIsLoading(true);
-    setError('');
 
     try {
-      const response = await fetch('http://62.113.118.59:1337/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username,
-          login,
-          password,
-          email,
-        }),
-      });
+      const response = await fetch(
+        'http://62.113.118.59:1337/api/user.register',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username,
+            login,
+            password,
+            email,
+          }),
+        }
+      );
 
       if (response.ok) {
         navigate('/login');
@@ -118,7 +115,7 @@ export const SignOnPage = () => {
               fullWidth
               name="repeatpassword"
               label="Повторите пароль"
-              type="repeatPassword"
+              type="password"
               id="repeatpassword"
               onChange={(e) => setRepeatPassword(e.target.value)}
             />
@@ -143,7 +140,7 @@ export const SignOnPage = () => {
             disabled={isLoading}
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, height: '56px' }}
           >
             Зарегистрироваться
           </Button>
