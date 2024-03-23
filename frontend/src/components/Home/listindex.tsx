@@ -12,19 +12,19 @@ export const mainListItems = (
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
-      <ListItemText primary="Dashboard" />
+      <ListItemText primary="Панель приборов" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Customers" />
+      <ListItemText primary="Пользователи" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
         <EditIcon />
       </ListItemIcon>
-      <ListItemText primary="Redaction" />
+      <ListItemText primary="Редактирование" />
     </ListItemButton>
   </React.Fragment>
 );
