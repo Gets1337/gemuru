@@ -99,7 +99,6 @@ export const SignOnPage = () => {
       setIsFormValid(false);
     }
   };
-
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

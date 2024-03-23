@@ -68,23 +68,21 @@ export const HomePage = () => {
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const GetUserInfo = async () => {
-      try {
-        const response = await fetch('http://62.113.118.59:1337/api/user.info');
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-        } else {
-          navigate('/login');
-        }
-      } catch (error) {
-        console.error('Ошибка при выполнении запроса:', error);
+  const GetUserInfo = async () => {
+    try {
+      const response = await fetch('http://62.113.118.59:1337/api/user-info');
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+      } else {
+        navigate('/login');
       }
-    };
+    } catch (error) {
+      console.error('Ошибка при выполнении запроса:', error);
+    }
+  };
 
-    GetUserInfo();
-  }, []);
+  GetUserInfo();
 
   const toggleDrawer = () => {
     setOpen(!open);
