@@ -17,15 +17,26 @@ export const SignOnPage = () => {
   const [email, setemail] = useState('');
   const [login, setlogin] = useState('');
   const [password, setpassword] = useState('');
-  const [repeatPassword, setRepeatPassword] = useState('');
+  const [repeatpassword, setRepeatPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const validateForm = () => {
+    return (
+      username.trim() !== '' &&
+      login.trim() !== '' &&
+      password.trim() !== '' &&
+      repeatpassword.trim() !== '' &&
+      email.trim() !== ''
+    );
+  };
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    if (password !== repeatPassword) {
+    if (password !== repeatpassword) {
       setError('Пароли не совпадают');
       return;
     }
@@ -61,6 +72,34 @@ export const SignOnPage = () => {
     }
   };
 
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    if (name === 'username') {
+      setusername(value);
+    } else if (name === 'login') {
+      setlogin(value);
+    } else if (name === 'password') {
+      setpassword(value);
+    } else if (name === 'repeatpassword') {
+      setRepeatPassword(value);
+    } else if (name === 'email') {
+      setemail(value);
+    }
+    setIsFormValid(validateForm());
+
+    if (name === 'username' && value.trim() === '') {
+      setIsFormValid(false);
+    } else if (name === 'login' && value.trim() === '') {
+      setIsFormValid(false);
+    } else if (name === 'password' && value.trim() === '') {
+      setIsFormValid(false);
+    } else if (name === 'repeatpassword' && value.trim() === '') {
+      setIsFormValid(false);
+    } else if (name === 'email' && value.trim() === '') {
+      setIsFormValid(false);
+    }
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -90,7 +129,8 @@ export const SignOnPage = () => {
               id="username"
               label="Имя пользователя"
               name="username"
-              onChange={(e) => setusername(e.target.value)}
+              value={username}
+              onChange={handleInputChange}
             />
             <TextField
               required
@@ -99,7 +139,8 @@ export const SignOnPage = () => {
               label="Логин"
               type="login"
               id="login"
-              onChange={(e) => setlogin(e.target.value)}
+              value={login}
+              onChange={handleInputChange}
             />
             <TextField
               required
@@ -108,7 +149,8 @@ export const SignOnPage = () => {
               label="Пароль"
               type="password"
               id="password"
-              onChange={(e) => setpassword(e.target.value)}
+              value={password}
+              onChange={handleInputChange}
             />
             <TextField
               required
@@ -117,7 +159,8 @@ export const SignOnPage = () => {
               label="Повторите пароль"
               type="password"
               id="repeatpassword"
-              onChange={(e) => setRepeatPassword(e.target.value)}
+              value={repeatpassword}
+              onChange={handleInputChange}
             />
             <TextField
               required
@@ -125,7 +168,8 @@ export const SignOnPage = () => {
               id="email"
               label="Почта"
               name="email"
-              onChange={(e) => setemail(e.target.value)}
+              value={email}
+              onChange={handleInputChange}
             />
             {error && (
               <Typography color="error" variant="body2">
@@ -137,7 +181,7 @@ export const SignOnPage = () => {
           <Button
             type="submit"
             onClick={handleSubmit}
-            disabled={isLoading}
+            disabled={!isFormValid || isLoading}
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2, height: '56px' }}

@@ -16,7 +16,12 @@ export const SignInPage = () => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
   const navigate = useNavigate();
+
+  const validateForm = () => {
+    return login.trim() !== '' || password.trim() !== '';
+  };
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -39,6 +44,22 @@ export const SignInPage = () => {
       console.error('Ошибка сети', error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    if (name === 'login') {
+      setLogin(value);
+    } else if (name === 'password') {
+      setPassword(value);
+    }
+    setIsFormValid(validateForm());
+
+    if (name === 'login' && value.trim() === '') {
+      setIsFormValid(false);
+    } else if (name === 'password' && value.trim() === '') {
+      setIsFormValid(false);
     }
   };
 
@@ -71,7 +92,8 @@ export const SignInPage = () => {
             id="login"
             label="Логин"
             name="login"
-            onChange={(e) => setLogin(e.target.value)}
+            value={login}
+            onChange={handleInputChange}
           />
           <TextField
             margin="normal"
@@ -81,12 +103,13 @@ export const SignInPage = () => {
             label="Пароль"
             type="password"
             id="password"
-            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            onChange={handleInputChange}
           />
           <Button
             type="submit"
             onClick={handleSubmit}
-            disabled={isLoading}
+            disabled={!isFormValid || isLoading}
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2, height: '56px' }}
