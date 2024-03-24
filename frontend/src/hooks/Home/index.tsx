@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { fetchUserInfo } from '../../utils/api';
 
 export const useHomePageLogic = () => {
   const [open, setOpen] = useState(true);
@@ -8,20 +9,16 @@ export const useHomePageLogic = () => {
   useEffect(() => {
     const getUserInfo = async () => {
       try {
-        const response = await fetch('http://62.113.118.59:1337/api/user-info');
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-        } else {
-          navigate('/login');
-        }
+        const data = await fetchUserInfo();
+        console.log(data);
       } catch (error) {
         console.error('Ошибка при выполнении запроса:', error);
+        navigate('/login');
       }
     };
 
     getUserInfo();
-  }, []);
+  }, [navigate]);
 
   const toggleDrawer = () => {
     setOpen(!open);

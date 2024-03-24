@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import { fetchSignUp } from '../../utils/api';
 
 export const useSignOnPageLogic = () => {
-  const [username, setusername] = useState('');
-  const [email, setemail] = useState('');
-  const [login, setlogin] = useState('');
-  const [password, setpassword] = useState('');
-  const [repeatpassword, setRepeatPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
   const [error, setError] = useState('');
@@ -16,8 +17,8 @@ export const useSignOnPageLogic = () => {
       username.trim() !== '' &&
       login.trim() !== '' &&
       password.trim().length >= minPasswordLength &&
-      repeatpassword.trim().length >= minPasswordLength &&
-      password === repeatpassword &&
+      repeatPassword.trim().length >= minPasswordLength &&
+      password === repeatPassword &&
       email.trim() !== ''
     );
   };
@@ -25,15 +26,15 @@ export const useSignOnPageLogic = () => {
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     if (name === 'username') {
-      setusername(value);
+      setUsername(value);
     } else if (name === 'login') {
-      setlogin(value);
+      setLogin(value);
     } else if (name === 'password') {
-      setpassword(value);
-    } else if (name === 'repeatpassword') {
+      setPassword(value);
+    } else if (name === 'repeatPassword') {
       setRepeatPassword(value);
     } else if (name === 'email') {
-      setemail(value);
+      setEmail(value);
     }
     setIsFormValid(validateForm());
 
@@ -44,7 +45,7 @@ export const useSignOnPageLogic = () => {
     } else if (name === 'password' && value.trim().length < minPasswordLength) {
       setIsFormValid(false);
     } else if (
-      name === 'repeatpassword' &&
+      name === 'repeatPassword' &&
       value.trim().length < minPasswordLength
     ) {
       setIsFormValid(false);
@@ -56,7 +57,7 @@ export const useSignOnPageLogic = () => {
   const handleSubmit = async (e: any, navigate: any) => {
     e.preventDefault();
 
-    if (password !== repeatpassword) {
+    if (password !== repeatPassword) {
       setError('Пароли не совпадают');
       return;
     }
@@ -64,36 +65,10 @@ export const useSignOnPageLogic = () => {
     setIsLoading(true);
 
     try {
-      const controller = new AbortController();
-      const signal = controller.signal;
-      setTimeout(() => {
-        controller.abort();
-      }, 15000);
-
-      const response = await fetch(
-        'http://62.113.118.59:1337/api/user.register',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            username,
-            login,
-            password,
-            email,
-          }),
-          signal: signal,
-        }
-      );
-
-      if (response.ok) {
-        navigate('/login');
-      } else {
-        console.error('Ошибка регистрации');
-      }
+      await fetchSignUp(username, login, password, email);
+      navigate('/login');
     } catch (error) {
-      console.error('Ошибка сети', error);
+      console.error('Ошибка регистрации:', error);
     } finally {
       setIsLoading(false);
     }
@@ -104,7 +79,7 @@ export const useSignOnPageLogic = () => {
     email,
     login,
     password,
-    repeatpassword,
+    repeatPassword,
     isLoading,
     isFormValid,
     error,
