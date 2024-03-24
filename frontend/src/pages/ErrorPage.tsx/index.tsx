@@ -1,5 +1,6 @@
 import React from 'react';
-import { Typography, Container, Box } from '@mui/material';
+import { Typography, Container, Box, Link } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
 export const NotFoundPage = () => {
   return (
@@ -9,8 +10,15 @@ export const NotFoundPage = () => {
           404 - Страница не найдена
         </Typography>
         <Typography variant="h5" component="p" gutterBottom>
-          Извините, запрашиваемая вами страница не существует или набранна
+          Извините, запрашиваемая вами страница не существует или набрана
           неправильно.
+        </Typography>
+        <Typography variant="body1" component="p">
+          Перейти на{' '}
+          <Link component={RouterLink} to="/">
+            главную страницу
+          </Link>
+          .
         </Typography>
       </Box>
     </Container>
