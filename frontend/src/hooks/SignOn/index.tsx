@@ -1,62 +1,52 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { fetchSignUp } from '../../utils/api';
+import { minPasswordLength } from '../../utils/const';
 
-export const useSignOnPageLogic = () => {
-  const [username, setusername] = useState('');
-  const [email, setemail] = useState('');
-  const [login, setlogin] = useState('');
-  const [password, setpassword] = useState('');
-  const [repeatpassword, setRepeatPassword] = useState('');
+export const useSignOn = () => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isFormValid, setIsFormValid] = useState(false);
   const [error, setError] = useState('');
-  const minPasswordLength = 3;
 
-  const validateForm = () => {
+  const isValidateForm = useMemo(() => {
     return (
       username.trim() !== '' &&
       login.trim() !== '' &&
       password.trim().length >= minPasswordLength &&
-      repeatpassword.trim().length >= minPasswordLength &&
-      password === repeatpassword &&
+      repeatPassword.trim().length >= minPasswordLength &&
+      password === repeatPassword &&
       email.trim() !== ''
     );
-  };
+  }, [username, email, login, password, repeatPassword]);
+
+  const isPasswordLengthInvalid = useMemo(() => {
+    return (
+      password.trim().length > 0 && password.trim().length < minPasswordLength
+    );
+  }, [password]);
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     if (name === 'username') {
-      setusername(value);
+      setUsername(value);
     } else if (name === 'login') {
-      setlogin(value);
+      setLogin(value);
     } else if (name === 'password') {
-      setpassword(value);
-    } else if (name === 'repeatpassword') {
+      setPassword(value);
+    } else if (name === 'repeatPassword') {
       setRepeatPassword(value);
     } else if (name === 'email') {
-      setemail(value);
-    }
-    setIsFormValid(validateForm());
-
-    if (name === 'username' && value.trim() === '') {
-      setIsFormValid(false);
-    } else if (name === 'login' && value.trim() === '') {
-      setIsFormValid(false);
-    } else if (name === 'password' && value.trim().length < minPasswordLength) {
-      setIsFormValid(false);
-    } else if (
-      name === 'repeatpassword' &&
-      value.trim().length < minPasswordLength
-    ) {
-      setIsFormValid(false);
-    } else if (name === 'email' && value.trim() === '') {
-      setIsFormValid(false);
+      setEmail(value);
     }
   };
 
   const handleSubmit = async (e: any, navigate: any) => {
     e.preventDefault();
 
-    if (password !== repeatpassword) {
+    if (password !== repeatPassword) {
       setError('Пароли не совпадают');
       return;
     }
@@ -64,36 +54,10 @@ export const useSignOnPageLogic = () => {
     setIsLoading(true);
 
     try {
-      const controller = new AbortController();
-      const signal = controller.signal;
-      setTimeout(() => {
-        controller.abort();
-      }, 15000);
-
-      const response = await fetch(
-        'http://62.113.118.59:1337/api/user.register',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            username,
-            login,
-            password,
-            email,
-          }),
-          signal: signal,
-        }
-      );
-
-      if (response.ok) {
-        navigate('/login');
-      } else {
-        console.error('Ошибка регистрации');
-      }
+      await fetchSignUp(username, login, password, email);
+      navigate('/login');
     } catch (error) {
-      console.error('Ошибка сети', error);
+      console.error('Ошибка регистрации:', error);
     } finally {
       setIsLoading(false);
     }
@@ -104,10 +68,11 @@ export const useSignOnPageLogic = () => {
     email,
     login,
     password,
-    repeatpassword,
+    repeatPassword,
     isLoading,
-    isFormValid,
+    isValidateForm,
     error,
+    isPasswordLengthInvalid,
     minPasswordLength,
     handleInputChange,
     handleSubmit,

@@ -6,7 +6,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import EditIcon from '@mui/icons-material/Edit';
 import PeopleIcon from '@mui/icons-material/People';
 
-export const mainListItems = (
+export const MainListItems = () => (
   <React.Fragment>
     <ListItemButton>
       <ListItemIcon>
