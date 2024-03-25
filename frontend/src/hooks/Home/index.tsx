@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchUserInfo } from '../../utils/api';
 
-export const useHomePageLogic = () => {
+export const useHome = () => {
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
 

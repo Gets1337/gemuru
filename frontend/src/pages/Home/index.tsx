@@ -1,18 +1,37 @@
 import React from 'react';
-import { HomePageLayout } from '../../blocks/Home';
-import { useHomePageLogic } from '../../hooks/Home';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import { CustomDrawer } from '../../components/Home/Drawer';
+import { CustomAppBar } from '../../components/Home/AppBar';
+import { useHome } from '../../hooks/Home';
 
 export const HomePage = () => {
-  const { open, toggleDrawer, handleLogout } = useHomePageLogic();
+  const { open, toggleDrawer, handleLogout } = useHome();
 
-  // Todo В чем логика вынесения целой страницы в отдельный компонент?
-  // Это бесполезно. У тебя получается компонент страницы нужен просто чтобы вывести другой компонент. Странно.
-  // Если это сделанно для разделения логики и верстки, та она уже разделена вынесением логики в пользовательский хук
   return (
-    <HomePageLayout
-      open={open}
-      toggleDrawer={toggleDrawer}
-      handleLogout={handleLogout}
-    />
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <CustomAppBar
+        open={open}
+        toggleDrawer={toggleDrawer}
+        handleLogout={handleLogout}
+      />
+      <CustomDrawer open={open} toggleDrawer={toggleDrawer} />
+      <Box
+        component="main"
+        sx={{
+          backgroundColor: (theme) =>
+            theme.palette.mode === 'light'
+              ? theme.palette.grey[100]
+              : theme.palette.grey[900],
+          flexGrow: 1,
+          height: '100vh',
+          overflow: 'auto',
+        }}
+      >
+        <Toolbar />
+      </Box>
+    </Box>
   );
 };

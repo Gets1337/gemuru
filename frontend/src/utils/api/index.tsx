@@ -58,14 +58,14 @@ export const fetchSignIn = async (login: any, password: any) => {
 
 // Todo тут ты мог поставить правильны тип у параметров
 export const fetchSignUp = async (
-  username: any,
-  login: any,
-  password: any,
-  email: any
+  username: string,
+  login: string,
+  password: string,
+  email: string
 ) => {
   try {
     // Todo снова в пути точка
-    return postRequest(`${BASE_URL}user.register`, {
+    return postRequest(`${BASE_URL}user-register`, {
       username,
       login,
       password,
@@ -76,7 +76,7 @@ export const fetchSignUp = async (
     // Ещё раз разбирайся в том, что пишешь!
     // Ты в функции postRequest уже делаешь обработку ошибки.
     // А тут ты просто кладешь на неё болт и перезаписываешь новой)
-    throw new CustomError('Ошибка сети', 500);
+    throw new Error('Ошибка сети');
   }
 };
 
@@ -85,6 +85,6 @@ export const fetchUserInfo = async () => {
     return getRequest(`${BASE_URL}user-info`);
   } catch (error) {
     // Todo та же проблема что и выше
-    throw new CustomError('Ошибка сети', 500);
+    throw new Error('Ошибка сети');
   }
 };

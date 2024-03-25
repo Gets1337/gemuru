@@ -1,24 +1,17 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { fetchSignUp } from '../../utils/api';
+import { minPasswordLength } from '../../utils/const';
 
-export const useSignOnPageLogic = () => {
+export const useSignOn = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
-  // Todo отдельное состояние под валидацию формы создавать слишком дорого
-  // Можно просто считать на лету. (useMemo)
-  const [isFormValid, setIsFormValid] = useState(false);
   const [error, setError] = useState('');
 
-  // Todo все что никак не изменяется в течении работы приложения мы выносим за пределы компонента
-  const minPasswordLength = 3;
-
-  // Todo опять же проблема. Если isFormValid переделать, то данная функция не нужна будет
-  const validateForm = () => {
+  const isValidateForm = useMemo(() => {
     return (
       username.trim() !== '' &&
       login.trim() !== '' &&
@@ -27,7 +20,13 @@ export const useSignOnPageLogic = () => {
       password === repeatPassword &&
       email.trim() !== ''
     );
-  };
+  }, [username, email, login, password, repeatPassword]);
+
+  const isPasswordLengthInvalid = useMemo(() => {
+    return (
+      password.trim().length > 0 && password.trim().length < minPasswordLength
+    );
+  }, [password]);
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -42,26 +41,6 @@ export const useSignOnPageLogic = () => {
     } else if (name === 'email') {
       setEmail(value);
     }
-
-    // Todo Опять же весь этот код удалиться если переделать isFormValid ======
-    setIsFormValid(validateForm());
-
-    if (name === 'username' && value.trim() === '') {
-      setIsFormValid(false);
-    } else if (name === 'login' && value.trim() === '') {
-      setIsFormValid(false);
-    } else if (name === 'password' && value.trim().length < minPasswordLength) {
-      setIsFormValid(false);
-    } else if (
-      name === 'repeatPassword' &&
-      value.trim().length < minPasswordLength
-    ) {
-      setIsFormValid(false);
-    } else if (name === 'email' && value.trim() === '') {
-      setIsFormValid(false);
-    }
-
-    // ======
   };
 
   const handleSubmit = async (e: any, navigate: any) => {
@@ -91,9 +70,9 @@ export const useSignOnPageLogic = () => {
     password,
     repeatPassword,
     isLoading,
-    isFormValid,
+    isValidateForm,
     error,
-    // Todo вот это можно вынести в отдельный файл const.ts и оттуда импортировать сразу же в компонент
+    isPasswordLengthInvalid,
     minPasswordLength,
     handleInputChange,
     handleSubmit,
