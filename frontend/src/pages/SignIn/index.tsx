@@ -73,7 +73,7 @@ export const SignInPage = () => {
           />
           <Button
             type="submit"
-            disabled={!validationData || isLoading}
+            disabled={!validationData.isFormValid || isLoading}
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2, height: '56px' }}

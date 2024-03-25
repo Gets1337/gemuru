@@ -6,13 +6,13 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Box from '@mui/material/Box';
+import { LogoutButton } from '../Logout';
 
 const drawerWidth: number = 240;
 
 type AppBarProps = {
   open?: boolean;
   toggleDrawer: () => void;
-  handleLogout: () => void;
 };
 
 const AppBar = styled(Box, {
@@ -35,11 +35,7 @@ const AppBar = styled(Box, {
   }),
 }));
 
-export const CustomAppBar = ({
-  open,
-  toggleDrawer,
-  handleLogout,
-}: AppBarProps) => (
+export const CustomAppBar = ({ open, toggleDrawer }: AppBarProps) => (
   <AppBar component="header" open={open}>
     <MuiAppBar position="absolute">
       <Toolbar sx={{ pr: '24px' }}>
@@ -64,18 +60,8 @@ export const CustomAppBar = ({
         >
           Gemuru
         </Typography>
-        <IconButton color="inherit" onClick={handleLogout}>
-          <Typography
-            variant="body1"
-            color="inherit"
-            sx={{ fontFamily: 'Roboto', fontSize: '1rem' }}
-          >
-            Выход
-          </Typography>
-        </IconButton>
+        <LogoutButton />
       </Toolbar>
     </MuiAppBar>
   </AppBar>
 );
-
-export default CustomAppBar;

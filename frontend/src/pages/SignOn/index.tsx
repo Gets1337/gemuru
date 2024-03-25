@@ -10,11 +10,12 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { CssBaseline } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import { useSignOn } from '../../hooks/SignOn';
 import { minPasswordLength } from '../../utils/const';
+import { useNavigate } from 'react-router-dom';
 
 export const SignOnPage = () => {
+  const navigate = useNavigate();
   const {
     username,
     email,
@@ -28,8 +29,6 @@ export const SignOnPage = () => {
     handleInputChange,
     handleSubmit,
   } = useSignOn();
-
-  const navigate = useNavigate();
 
   return (
     <Container component="main" maxWidth="xs">

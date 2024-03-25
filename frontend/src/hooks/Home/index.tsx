@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { fetchUserInfo } from '../../utils/api';
+import { useNavigate } from 'react-router-dom';
 
 export const useHome = () => {
   const [open, setOpen] = useState(true);
@@ -23,13 +23,8 @@ export const useHome = () => {
     setOpen(!open);
   };
 
-  const handleLogout = () => {
-    navigate('/login');
-  };
-
   return {
     open,
     toggleDrawer,
-    handleLogout,
   };
 };

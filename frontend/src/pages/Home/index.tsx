@@ -7,16 +7,12 @@ import { CustomAppBar } from '../../components/Home/AppBar';
 import { useHome } from '../../hooks/Home';
 
 export const HomePage = () => {
-  const { open, toggleDrawer, handleLogout } = useHome();
+  const { open, toggleDrawer } = useHome();
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <CustomAppBar
-        open={open}
-        toggleDrawer={toggleDrawer}
-        handleLogout={handleLogout}
-      />
+      <CustomAppBar open={open} toggleDrawer={toggleDrawer} />
       <CustomDrawer open={open} toggleDrawer={toggleDrawer} />
       <Box
         component="main"
