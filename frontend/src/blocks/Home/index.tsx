@@ -15,10 +15,12 @@ import { List } from '@mui/material';
 
 const drawerWidth: number = 240;
 
+// Todo Обычно в TS для props мы используем type, вместо interface
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
 
+// Todo вот такая кастомизация компонентов должны выноситься в отдельные компоненты
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<AppBarProps>(({ theme, open }) => ({
@@ -37,6 +39,7 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
+// Todo вот такая кастомизация компонентов должны выноситься в отдельные компоненты
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
@@ -63,6 +66,8 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
+// Todo папка, в которой распологается компонент, называется Home. А компонент называется HomePageLayout.
+// По стандарту папку нужно назвать HomeLayout, а компонент HomeLayout
 export const HomePageLayout = ({
   open,
   toggleDrawer,

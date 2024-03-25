@@ -2,10 +2,14 @@ import { useState } from 'react';
 import { fetchSignIn } from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
 
+// Todo в названии не нужно писать что это логика (Logic). Ты же ничего кроме логики сюда не можешь засунуть
+// Тоже самое касательно суффикса Page. Это же не страница
+// Просто useSignIn
 export const useSignInPageLogic = () => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  // Todo уже описал проблему в useSignOn
   const [isFormValid, setIsFormValid] = useState(false);
   const navigate = useNavigate();
 

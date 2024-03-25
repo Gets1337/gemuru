@@ -82,10 +82,12 @@ export const SignOnPageLayout = () => {
               value={password}
               onChange={handleInputChange}
               error={
+              // Todo Стоит пересмотреть логику, слишком сложно
                 password.trim().length > 0 &&
                 password.trim().length < minPasswordLength
               }
               helperText={
+                // Todo Копипаст логики выше. Стоит вынести в отдельную переменную. Прочитать про useMemo
                 password.trim().length > 0 &&
                 password.trim().length < minPasswordLength
                   ? `Минимальная длина ${minPasswordLength} символа`
