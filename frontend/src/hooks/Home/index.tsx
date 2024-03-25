@@ -13,7 +13,6 @@ export const useHomePageLogic = () => {
         console.log(data);
       } catch (error) {
         console.error('Ошибка при выполнении запроса:', error);
-        navigate('/login');
       }
     };
 

@@ -1,15 +1,13 @@
 import { useState } from 'react';
 import { fetchSignIn } from '../../utils/api';
+import { useNavigate } from 'react-router-dom';
 
 export const useSignInPageLogic = () => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
-
-  const validateForm = () => {
-    return login.trim() !== '' || password.trim() !== '';
-  };
+  const navigate = useNavigate();
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -18,16 +16,14 @@ export const useSignInPageLogic = () => {
     } else if (name === 'password') {
       setPassword(value);
     }
-    setIsFormValid(validateForm());
 
-    if (name === 'login' && value.trim() === '') {
-      setIsFormValid(false);
-    } else if (name === 'password' && value.trim() === '') {
-      setIsFormValid(false);
-    }
+    const loginValue = name === 'login' ? value : login;
+    const passwordValue = name === 'password' ? value : password;
+
+    setIsFormValid(loginValue.trim() !== '' && passwordValue.trim() !== '');
   };
 
-  const handleSubmit = async (e: any, navigate: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
 

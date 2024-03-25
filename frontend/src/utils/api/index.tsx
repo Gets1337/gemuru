@@ -9,6 +9,8 @@ class CustomError extends Error {
   }
 }
 
+const BASE_URL = 'http://62.113.118.59:1337/api/';
+
 const handleResponse = async (response: any) => {
   if (!response.ok) {
     const errorData = await response.json();
@@ -20,16 +22,25 @@ const handleResponse = async (response: any) => {
   return response.json();
 };
 
+const getRequest = async (url: string) => {
+  const response = await fetch(url);
+  return handleResponse(response);
+};
+
+const postRequest = async (url: string, data: any) => {
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  return handleResponse(response);
+};
+
 export const fetchSignIn = async (login: any, password: any) => {
   try {
-    const response = await fetch('http://62.113.118.59:1337/api/user.login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ login, password }),
-    });
-    return handleResponse(response);
+    return postRequest(`${BASE_URL}user.login`, { login, password });
   } catch (error) {
     throw new CustomError('Ошибка сети', 500);
   }
@@ -42,17 +53,12 @@ export const fetchSignUp = async (
   email: any
 ) => {
   try {
-    const response = await fetch(
-      'http://62.113.118.59:1337/api/user.register',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, login, password, email }),
-      }
-    );
-    return handleResponse(response);
+    return postRequest(`${BASE_URL}user.register`, {
+      username,
+      login,
+      password,
+      email,
+    });
   } catch (error) {
     throw new CustomError('Ошибка сети', 500);
   }
@@ -60,8 +66,7 @@ export const fetchSignUp = async (
 
 export const fetchUserInfo = async () => {
   try {
-    const response = await fetch('http://62.113.118.59:1337/api/user-info');
-    return handleResponse(response);
+    return getRequest(`${BASE_URL}user-info`);
   } catch (error) {
     throw new CustomError('Ошибка сети', 500);
   }

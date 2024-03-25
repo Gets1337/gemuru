@@ -19,7 +19,7 @@ export const SignOnPageLayout = () => {
     email,
     login,
     password,
-    repeatpassword,
+    repeatPassword,
     isLoading,
     isFormValid,
     error,
@@ -95,11 +95,11 @@ export const SignOnPageLayout = () => {
             <TextField
               required
               fullWidth
-              name="repeatpassword"
+              name="repeatPassword"
               label="Повторите пароль"
               type="password"
-              id="repeatpassword"
-              value={repeatpassword}
+              id="repeatPassword"
+              value={repeatPassword}
               onChange={handleInputChange}
             />
             <TextField
